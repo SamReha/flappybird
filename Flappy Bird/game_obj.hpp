@@ -3,7 +3,7 @@
 
 #pragma once
 
-class Maze_obj {
+class Game_obj {
 protected:
   sf::Sprite sprite;
   sf::Vector2<double> position;

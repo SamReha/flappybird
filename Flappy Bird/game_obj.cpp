@@ -1,28 +1,29 @@
-#include "maze_obj.hpp"
+#include "game_obj.hpp"
 
 // Protected
 
 // Public
-sf::Sprite Maze_obj::getSprite() {
+sf::Sprite Game_obj::getSprite() {
   return sprite;
 }
 
-sf::Vector2<double> Maze_obj::getPosition() {
+sf::Vector2<double> Game_obj::getPosition() {
   return position;
 }
 
-double Maze_obj::getXPos() {
+double Game_obj::getXPos() {
   return position.x;
 }
 
-double Maze_obj::getYPos() {
+double Game_obj::getYPos() {
   return position.y;
 }
 
-void Maze_obj::setPosition(double x, double y) {
+void Game_obj::setPosition(double x, double y) {
   position = sf::Vector2<double>(x, y);
+  sprite.setPosition(x, y);
 }
 
-void Maze_obj::setSprite(sf::Sprite spr) {
+void Game_obj::setSprite(sf::Sprite spr) {
   sprite = spr;
 }
