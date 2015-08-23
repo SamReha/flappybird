@@ -14,6 +14,10 @@
 		E4F875691B85643D0034D847 /* icon.png in Resources */ = {isa = PBXBuildFile; fileRef = E4F875681B85643D0034D847 /* icon.png */; };
 		E4F875701B8564AA0034D847 /* world_texture.png in Resources */ = {isa = PBXBuildFile; fileRef = E4F8756F1B8564AA0034D847 /* world_texture.png */; };
 		E4F875731B856B1E0034D847 /* AssetManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E4F875721B856B1E0034D847 /* AssetManager.cpp */; };
+		E4F875751B88FBDD0034D847 /* other_textures in Resources */ = {isa = PBXBuildFile; fileRef = E4F875741B88FBDD0034D847 /* other_textures */; };
+		E4F875781B88FDC60034D847 /* button.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E4F875761B88FDC60034D847 /* button.cpp */; };
+		E4F8757B1B8900030034D847 /* game_obj.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E4F875791B8900030034D847 /* game_obj.cpp */; };
+		E4F8757E1B89034F0034D847 /* character.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E4F8757C1B89034F0034D847 /* character.cpp */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -28,6 +32,13 @@
 		E4F8756F1B8564AA0034D847 /* world_texture.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = world_texture.png; path = "Flappy Bird.xcodeproj/world_texture.png"; sourceTree = SOURCE_ROOT; };
 		E4F875711B8569F30034D847 /* AssetManager.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = AssetManager.hpp; sourceTree = "<group>"; };
 		E4F875721B856B1E0034D847 /* AssetManager.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = AssetManager.cpp; sourceTree = "<group>"; };
+		E4F875741B88FBDD0034D847 /* other_textures */ = {isa = PBXFileReference; lastKnownFileType = folder; path = other_textures; sourceTree = "<group>"; };
+		E4F875761B88FDC60034D847 /* button.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = button.cpp; sourceTree = "<group>"; };
+		E4F875771B88FDC60034D847 /* button.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = button.hpp; sourceTree = "<group>"; };
+		E4F875791B8900030034D847 /* game_obj.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = game_obj.cpp; sourceTree = "<group>"; };
+		E4F8757A1B8900030034D847 /* game_obj.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = game_obj.hpp; sourceTree = "<group>"; };
+		E4F8757C1B89034F0034D847 /* character.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = character.cpp; sourceTree = "<group>"; };
+		E4F8757D1B89034F0034D847 /* character.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = character.hpp; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -60,11 +71,17 @@
 		E4F875591B85643D0034D847 /* Flappy Bird */ = {
 			isa = PBXGroup;
 			children = (
-				E4F8755C1B85643D0034D847 /* ResourcePath.mm */,
-				E4F8755E1B85643D0034D847 /* ResourcePath.hpp */,
 				E4F8755F1B85643D0034D847 /* main.cpp */,
 				E4F875711B8569F30034D847 /* AssetManager.hpp */,
 				E4F875721B856B1E0034D847 /* AssetManager.cpp */,
+				E4F8757A1B8900030034D847 /* game_obj.hpp */,
+				E4F875791B8900030034D847 /* game_obj.cpp */,
+				E4F8757D1B89034F0034D847 /* character.hpp */,
+				E4F8757C1B89034F0034D847 /* character.cpp */,
+				E4F875771B88FDC60034D847 /* button.hpp */,
+				E4F875761B88FDC60034D847 /* button.cpp */,
+				E4F8755C1B85643D0034D847 /* ResourcePath.mm */,
+				E4F8755E1B85643D0034D847 /* ResourcePath.hpp */,
 				E4F875611B85643D0034D847 /* Resources */,
 				E4F8755A1B85643D0034D847 /* Supporting Files */,
 			);
@@ -86,6 +103,7 @@
 				E4F875641B85643D0034D847 /* nice_music.ogg */,
 				E4F875661B85643D0034D847 /* sansation.ttf */,
 				E4F875681B85643D0034D847 /* icon.png */,
+				E4F875741B88FBDD0034D847 /* other_textures */,
 			);
 			name = Resources;
 			sourceTree = "<group>";
@@ -147,6 +165,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				E4F875751B88FBDD0034D847 /* other_textures in Resources */,
 				E4F875691B85643D0034D847 /* icon.png in Resources */,
 				E4F875671B85643D0034D847 /* sansation.ttf in Resources */,
 				E4F875701B8564AA0034D847 /* world_texture.png in Resources */,
@@ -179,7 +198,10 @@
 			files = (
 				E4F875731B856B1E0034D847 /* AssetManager.cpp in Sources */,
 				E4F875601B85643D0034D847 /* main.cpp in Sources */,
+				E4F8757B1B8900030034D847 /* game_obj.cpp in Sources */,
 				E4F8755D1B85643D0034D847 /* ResourcePath.mm in Sources */,
+				E4F875781B88FDC60034D847 /* button.cpp in Sources */,
+				E4F8757E1B89034F0034D847 /* character.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
