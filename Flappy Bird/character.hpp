@@ -9,10 +9,12 @@ protected:
   int activeVectorIndex;
   double timeOfLastSpriteChange;
   double frameRate;
-  
+
   bool dead;
   bool inMenu;
-  
+
+  int score;
+
   sf::Vector2<double> velocity;
 public:
   Character(double xPos, double yPos, double frmeRte);
@@ -20,14 +22,20 @@ public:
   void setVelocity(sf::Vector2<double> newVelocity);
   void setXVel(double newX);
   void setYVel(double newY);
+  void setState(sf::String state);
+  void setScore(int newScore);
+  void incrementScore();
+  void decrementScore();
   
   sf::Vector2<double> getVelocity();
   double getXVel();
   double getYVel();
-  sf::String getDirection();
+  int getScore();
   
-  void setState(sf::String state);
+  bool touchingFloor();
+  
   void kill();
+  void revive();
   void bounce(double bounceFactor);
   
   void update();

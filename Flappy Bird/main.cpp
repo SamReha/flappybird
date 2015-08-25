@@ -9,14 +9,9 @@
 int main(int, char const**) {
   // Create the main window
   sf::RenderWindow window(sf::VideoMode(288, 512), "SFML window");
-
-  // Set the Icon
-  sf::Image icon;
-  if (!icon.loadFromFile(resourcePath() + "icon.png")) {
-    return EXIT_FAILURE;
-  }
-  window.setIcon(icon.getSize().x, icon.getSize().y, icon.getPixelsPtr());
-
+  
+  // Let's get at least something on the screen while the player waits for loading to be over
+  
   // Load some sprites and textures
   AssetManager assetManager;
   
@@ -27,7 +22,36 @@ int main(int, char const**) {
   
   std::map<sf::String, sf::Sprite> spriteSet = assetManager.generateSpriteSet(&world_texture);
   spriteSet["floor"].setPosition(0, 400); // Floor actually moves, so this will need to be dynamic later
-  spriteSet["title"].setPosition(55, 150);
+  // initialize random seed (this is used for chosing assets that change randomly):
+  srand(time(NULL));
+  
+  // Set a menu bg and game bg
+  sf::Sprite menu_background;
+  sf::Sprite game_background;
+  std::vector<sf::Sprite> birdSpriteVector;
+  
+  if (rand()%2) {
+    menu_background = spriteSet["day_background"];
+  } else {
+    menu_background = spriteSet["day_background"];
+  }
+  
+  if (rand()%2) {
+    game_background = spriteSet["day_background"];
+  } else {
+    game_background = spriteSet["night_background"];
+  }
+  
+  window.draw(menu_background);
+  window.draw(spriteSet["floor"]);
+  window.display();
+
+  // Set the Icon
+  sf::Image icon;
+  if (!icon.loadFromFile(resourcePath() + "icon.png")) {
+    return EXIT_FAILURE;
+  }
+  window.setIcon(icon.getSize().x, icon.getSize().y, icon.getPixelsPtr());
   
   // Load unincorporated sprites
   // Loading sprites off a single texture is tedious and difficult - so I broke some off into seperate
@@ -105,7 +129,7 @@ int main(int, char const**) {
   if (!font.loadFromFile(resourcePath() + "sansation.ttf")) {
     return EXIT_FAILURE;
   }
-  sf::Text text("Hello SFML", font, 50);
+  sf::Text text("Score:", font, 50);
   text.setColor(sf::Color::Black);
 
   // Load a music to play
@@ -116,26 +140,6 @@ int main(int, char const**) {
 
   // Play the music
   //music.play();
-  
-  // initialize random seed (this is used for chosing assets that change randomly):
-  srand(time(NULL));
-  
-  // Set a menu bg and game bg
-  sf::Sprite menu_background;
-  sf::Sprite game_background;
-  std::vector<sf::Sprite> birdSpriteVector;
-  
-  if (rand()%2) {
-    menu_background = spriteSet["day_background"];
-  } else {
-    menu_background = spriteSet["day_background"];
-  }
-  
-  if (rand()%2) {
-    game_background = spriteSet["day_background"];
-  } else {
-    game_background = spriteSet["night_background"];
-  }
   
   if (rand()%3 == 0) {
     birdSpriteVector.push_back(blue_one);
@@ -164,6 +168,9 @@ int main(int, char const**) {
   sf::Vector2<double> startButtonSize(116, 68);
   Button startButton(startButtonSize, startButtonPosition, start_spr, sf::Rect<double>(startButtonPosition, startButtonSize));
   
+  spriteSet["title"].setPosition(55, 150);
+  spriteSet["game_over"].setPosition(50, 150);
+  
   sf::Mouse mouse;
   sf::Vector2<int> mousePos;
 
@@ -186,6 +193,9 @@ int main(int, char const**) {
     // Hard lock the game at 60 FPS!
     secondsSinceLastFrame = ((double) clock()/CLOCKS_PER_SEC) - timeOfLastFrame;
     if (secondsSinceLastFrame > 1.0/60.0) {
+      // You know what would work better than this switch case? A Scene object that bundles all non-global data together into a single chunk that
+      // could be loaded or unloaded with a single function call. Scene objects would then have draw methods that accept a window object as a param
+      // in order to encapsulate drawing and update logic. Saves the cycles spent figuring out which state we're in, plus it'll look cleaner.
       switch (gameState) {
         // Case M: The menu state
         case 'm':
@@ -195,12 +205,11 @@ int main(int, char const**) {
             mousePos = mouse.getPosition(window);
             if (startButton.isClicked(sf::Vector2<double>(mousePos.x, mousePos.y))) {
               gameState = 'g';
-              bird.setPosition(85, 230);
+              bird.setPosition(79, 230);
             }
           }
 
           // Update the screen!
-          // Clear screen
           window.clear();
     
           window.draw(menu_background);
@@ -220,23 +229,64 @@ int main(int, char const**) {
           if (sf::Keyboard::isKeyPressed(sf::Keyboard::Space)) {
             showInstructions = false;
             bird.setState("game");
-            bird.bounce(20.0);
+            bird.bounce(10.0);
           }
           bird.update();
+          
+          if (bird.touchingFloor()) {
+            bird.kill();
+            bird.setState("menu");
+            gameState = 'o';
+          }
+          
+          text.setString("Score: " + std::to_string(bird.getScore()));
+          
           // Update the screen!
-          // Clear screen
           window.clear();
           
-          window.draw(menu_background);
+          window.draw(game_background);
           window.draw(spriteSet["floor"]);
           
           window.draw(bird.getSprite());
+          window.draw(text);
           
           if (showInstructions) {
             window.draw(instruction);
           }
           
           // Update the window
+          window.display();
+          break;
+        // Cast O: the game-over state
+        case 'o':
+          // Update logic!
+          if (mouse.isButtonPressed(sf::Mouse::Button::Left)) {
+            mousePos = mouse.getPosition(window);
+            if (startButton.isClicked(sf::Vector2<double>(mousePos.x, mousePos.y))) {
+              gameState = 'g';
+              bird.setPosition(79, 230);
+              bird.setScore(0);
+              bird.revive();
+              showInstructions = true;
+              
+              // Reroll the game background
+              if (rand()%2) {
+                game_background = spriteSet["day_background"];
+              } else {
+                game_background = spriteSet["night_background"];
+              }
+            }
+          }
+          
+          // Update the screen!
+          window.clear();
+          
+          window.draw(menu_background);
+          window.draw(spriteSet["floor"]);
+          window.draw(bird.getSprite());
+          window.draw(startButton.getSprite());
+          window.draw(spriteSet["game_over"]);
+          
           window.display();
           break;
         default:
