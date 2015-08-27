@@ -5,6 +5,7 @@
 #include "AssetManager.hpp"
 #include "character.hpp"
 #include "button.hpp"
+#include "pipe.hpp"
 
 int main(int, char const**) {
   // Create the main window
@@ -123,6 +124,18 @@ int main(int, char const**) {
   }
   sf::Sprite instruction(instruction_texture);
   instruction.setPosition(87, 207);
+  
+  sf::Texture topPipe_texture;
+  if (!topPipe_texture.loadFromFile(resourcePath() + "other_textures/green_pipe_up.png")) {
+    return EXIT_FAILURE;
+  }
+  sf::Sprite topPipe(topPipe_texture);
+  
+  sf::Texture bottomPipe_texture;
+  if (!bottomPipe_texture.loadFromFile(resourcePath() + "other_textures/green_pipe_down.png")) {
+    return EXIT_FAILURE;
+  }
+  sf::Sprite bottomPipe(bottomPipe_texture);
 
   // Create a graphical text to display
   sf::Font font;
@@ -173,6 +186,11 @@ int main(int, char const**) {
   
   sf::Mouse mouse;
   sf::Vector2<int> mousePos;
+  
+  Pipe pipe1(topPipe, bottomPipe, 100, 100, 30, 5);
+  std::vector<sf::Sprite> pipe1Sprites;
+  //Pipe pipe2(topPipe, bottomPipe, 100, 100, 30, 5);
+  //Pipe pipe3(topPipe, bottomPipe, 100, 100, 30, 5);
 
   // Start the game loop
   double secondsSinceLastFrame;
@@ -232,6 +250,7 @@ int main(int, char const**) {
             bird.bounce(10.0);
           }
           bird.update();
+          pipe1.update();
           
           if (bird.touchingFloor()) {
             bird.kill();
@@ -241,6 +260,7 @@ int main(int, char const**) {
           
           text.setString("Score: " + std::to_string(bird.getScore()));
           
+          pipe1Sprites = pipe1.getSprites();
           // Update the screen!
           window.clear();
           
@@ -248,6 +268,8 @@ int main(int, char const**) {
           window.draw(spriteSet["floor"]);
           
           window.draw(bird.getSprite());
+          window.draw(pipe1Sprites[0]);
+          window.draw(pipe1Sprites[1]);
           window.draw(text);
           
           if (showInstructions) {

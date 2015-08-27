@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		E4C1B03A1B8EBC390048A502 /* pipe.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E4C1B0391B8EBC390048A502 /* pipe.cpp */; };
 		E4F8755D1B85643D0034D847 /* ResourcePath.mm in Sources */ = {isa = PBXBuildFile; fileRef = E4F8755C1B85643D0034D847 /* ResourcePath.mm */; };
 		E4F875601B85643D0034D847 /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E4F8755F1B85643D0034D847 /* main.cpp */; };
 		E4F875651B85643D0034D847 /* nice_music.ogg in Resources */ = {isa = PBXBuildFile; fileRef = E4F875641B85643D0034D847 /* nice_music.ogg */; };
@@ -21,6 +22,8 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		E4C1B0381B8EB9E00048A502 /* pipe.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = pipe.hpp; sourceTree = "<group>"; };
+		E4C1B0391B8EBC390048A502 /* pipe.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = pipe.cpp; sourceTree = "<group>"; };
 		E4F875571B85643D0034D847 /* Flappy Bird.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Flappy Bird.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		E4F8755B1B85643D0034D847 /* Flappy Bird-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "Flappy Bird-Info.plist"; sourceTree = "<group>"; };
 		E4F8755C1B85643D0034D847 /* ResourcePath.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = ResourcePath.mm; sourceTree = "<group>"; };
@@ -80,6 +83,8 @@
 				E4F8757C1B89034F0034D847 /* character.cpp */,
 				E4F875771B88FDC60034D847 /* button.hpp */,
 				E4F875761B88FDC60034D847 /* button.cpp */,
+				E4C1B0381B8EB9E00048A502 /* pipe.hpp */,
+				E4C1B0391B8EBC390048A502 /* pipe.cpp */,
 				E4F8755C1B85643D0034D847 /* ResourcePath.mm */,
 				E4F8755E1B85643D0034D847 /* ResourcePath.hpp */,
 				E4F875611B85643D0034D847 /* Resources */,
@@ -196,6 +201,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				E4C1B03A1B8EBC390048A502 /* pipe.cpp in Sources */,
 				E4F875731B856B1E0034D847 /* AssetManager.cpp in Sources */,
 				E4F875601B85643D0034D847 /* main.cpp in Sources */,
 				E4F8757B1B8900030034D847 /* game_obj.cpp in Sources */,
@@ -339,6 +345,7 @@
 				E4F8756E1B85643D0034D847 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
