@@ -7,9 +7,14 @@
 #include "button.hpp"
 #include "pipe.hpp"
 
+const int PIPE_SPACING = 150;
+const double SPEED = 2.5;
+const double GAP_WIDTH = 90;
+const double STARTING_POSITION = 750;
+
 int main(int, char const**) {
   // Create the main window
-  sf::RenderWindow window(sf::VideoMode(288, 512), "SFML window");
+  sf::RenderWindow window(sf::VideoMode(288, 512), "Flappy Bird");
   
   // Let's get at least something on the screen while the player waits for loading to be over
   
@@ -187,10 +192,12 @@ int main(int, char const**) {
   sf::Mouse mouse;
   sf::Vector2<int> mousePos;
   
-  Pipe pipe1(topPipe, bottomPipe, 100, 100, 30, 5);
+  Pipe pipe1(topPipe, bottomPipe, STARTING_POSITION, 100, GAP_WIDTH, SPEED);
   std::vector<sf::Sprite> pipe1Sprites;
-  //Pipe pipe2(topPipe, bottomPipe, 100, 100, 30, 5);
-  //Pipe pipe3(topPipe, bottomPipe, 100, 100, 30, 5);
+  Pipe pipe2(topPipe, bottomPipe, STARTING_POSITION + PIPE_SPACING, 100, GAP_WIDTH, SPEED);
+  std::vector<sf::Sprite> pipe2Sprites;
+  Pipe pipe3(topPipe, bottomPipe, STARTING_POSITION + 2*PIPE_SPACING, 100, GAP_WIDTH, SPEED);
+  std::vector<sf::Sprite> pipe3Sprites;
 
   // Start the game loop
   double secondsSinceLastFrame;
@@ -250,8 +257,36 @@ int main(int, char const**) {
             bird.bounce(10.0);
           }
           bird.update();
-          pipe1.update();
           
+          if (!showInstructions) {
+            pipe1.update();
+            pipe2.update();
+            pipe3.update();
+            
+            if (pipe1.isOffScreen()) {
+              pipe1.setXPos(pipe3.getXPos() + PIPE_SPACING);
+              pipe1.reactivate();
+            }
+            if (pipe2.isOffScreen()) {
+              pipe2.setXPos(pipe1.getXPos() + PIPE_SPACING);
+              pipe2.reactivate();
+            }
+            if (pipe3.isOffScreen()) {
+              pipe3.setXPos(pipe2.getXPos() + PIPE_SPACING);
+              pipe3.reactivate();
+            }
+            
+            if (pipe1.hasBeenPassed(bird.getXPos())) {
+              bird.incrementScore();
+            }
+            if (pipe2.hasBeenPassed(bird.getXPos())) {
+              bird.incrementScore();
+            }
+            if (pipe3.hasBeenPassed(bird.getXPos())) {
+              bird.incrementScore();
+            }
+          }
+            
           if (bird.touchingFloor()) {
             bird.kill();
             bird.setState("menu");
@@ -261,15 +296,25 @@ int main(int, char const**) {
           text.setString("Score: " + std::to_string(bird.getScore()));
           
           pipe1Sprites = pipe1.getSprites();
+          pipe2Sprites = pipe2.getSprites();
+          pipe3Sprites = pipe3.getSprites();
           // Update the screen!
           window.clear();
           
           window.draw(game_background);
-          window.draw(spriteSet["floor"]);
           
           window.draw(bird.getSprite());
+          
           window.draw(pipe1Sprites[0]);
           window.draw(pipe1Sprites[1]);
+          
+          window.draw(pipe2Sprites[0]);
+          window.draw(pipe2Sprites[1]);
+          
+          window.draw(pipe3Sprites[0]);
+          window.draw(pipe3Sprites[1]);
+          
+          window.draw(spriteSet["floor"]);
           window.draw(text);
           
           if (showInstructions) {
@@ -303,9 +348,19 @@ int main(int, char const**) {
           // Update the screen!
           window.clear();
           
-          window.draw(menu_background);
-          window.draw(spriteSet["floor"]);
+          window.draw(game_background);
           window.draw(bird.getSprite());
+          
+          window.draw(pipe1Sprites[0]);
+          window.draw(pipe1Sprites[1]);
+          
+          window.draw(pipe2Sprites[0]);
+          window.draw(pipe2Sprites[1]);
+          
+          window.draw(pipe3Sprites[0]);
+          window.draw(pipe3Sprites[1]);
+          
+          window.draw(spriteSet["floor"]);
           window.draw(startButton.getSprite());
           window.draw(spriteSet["game_over"]);
           

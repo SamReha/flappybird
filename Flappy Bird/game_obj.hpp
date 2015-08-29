@@ -14,5 +14,7 @@ public:
   double getYPos();
   
   void setPosition(double, double);
+  void setXPos(double);
+  void setYPos(double);
   void setSprite(sf::Sprite spr);
 };

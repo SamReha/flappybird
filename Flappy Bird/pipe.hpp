@@ -5,10 +5,18 @@ protected:
   sf::Sprite bottomPipe;
   double velocity;
   double gap;
+  bool active;
 public:
   Pipe(sf::Sprite topPipe, sf::Sprite bottPipe, double xPos, double yPos, double gap, double vel);
   std::vector<sf::Sprite> getSprites();
+  
+  void setPosition(double, double);
+  void setXPos(double);
+  void setYPos(double);
+  void reactivate();
+  
   bool isTouchedBy(sf::Rect<int> collisionBox);
-  bool hasBeenPassed(double prevPos, double currentPos);
+  bool hasBeenPassed(double birdPos);
+  bool isOffScreen();
   void update();
 };
