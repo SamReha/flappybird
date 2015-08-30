@@ -19,13 +19,18 @@ Character::Character(double xPos, double yPos, double frmeRte) {
   activeVectorIndex = 0;
   timeOfLastSpriteChange = -1.0;
   sprite.setPosition(xPos, yPos);
+  score = 0;
 }
 
 void Character::setSpriteVector(std::vector<sf::Sprite> vector, int vecLeng) {
   activeSpriteVector = vector;
   vectorLength = vecLeng;
   sprite = vector[0];
-  score = 0;
+  
+  sf::Vector2<double> size;
+  size.x = sprite.getTextureRect().width;
+  size.y = sprite.getTextureRect().height;
+  collisionBox = *new sf::Rect<int>(position.x, position.y, size.x, size.y);
 }
 
 void Character::setVelocity(sf::Vector2<double> newVelocity) {
@@ -112,5 +117,9 @@ void Character::update() {
     }
     
     sprite.setPosition(position.x, position.y); // Make sure the sprite knows where we are
+    sf::Vector2<double> size;
+    size.x = sprite.getTextureRect().width;
+    size.y = sprite.getTextureRect().height;
+    collisionBox = *new sf::Rect<int>(position.x, position.y, size.x, size.y);
   }
 }

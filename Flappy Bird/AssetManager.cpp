@@ -16,6 +16,9 @@ std::map<sf::String, sf::Sprite> AssetManager::generateSpriteSet(sf::Texture* ti
   sf::Sprite floor(*tileset_texture, sf::Rect<int>(584, 0, 288, 112));
   assetDict["floor"] = floor;
   
+  sf::Sprite floor_copy(*tileset_texture, sf::Rect<int>(584, 0, 288, 112));
+  assetDict["floor_copy"] = floor_copy;
+  
   sf::Sprite title(*tileset_texture, sf::Rect<int>(702, 182, 178, 48));
   assetDict["title"] = title;
   

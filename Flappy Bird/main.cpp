@@ -6,6 +6,7 @@
 #include "character.hpp"
 #include "button.hpp"
 #include "pipe.hpp"
+#include "floor.hpp"
 
 const int PIPE_SPACING = 150;
 const double SPEED = 2.5;
@@ -16,8 +17,7 @@ int main(int, char const**) {
   // Create the main window
   sf::RenderWindow window(sf::VideoMode(288, 512), "Flappy Bird");
   
-  // Let's get at least something on the screen while the player waits for loading to be over
-  
+  // Let's get at least something on the screen while the player waits for loading and setup to be over
   // Load some sprites and textures
   AssetManager assetManager;
   
@@ -198,6 +198,9 @@ int main(int, char const**) {
   std::vector<sf::Sprite> pipe2Sprites;
   Pipe pipe3(topPipe, bottomPipe, STARTING_POSITION + 2*PIPE_SPACING, 100, GAP_WIDTH, SPEED);
   std::vector<sf::Sprite> pipe3Sprites;
+  
+  Floor floor(spriteSet["floor"], spriteSet["floor_copy"], 0, 400, SPEED);
+  std::vector<sf::Sprite> floorSprites;
 
   // Start the game loop
   double secondsSinceLastFrame;
@@ -262,6 +265,7 @@ int main(int, char const**) {
             pipe1.update();
             pipe2.update();
             pipe3.update();
+            floor.update();
             
             if (pipe1.isOffScreen()) {
               pipe1.setXPos(pipe3.getXPos() + PIPE_SPACING);
@@ -287,7 +291,7 @@ int main(int, char const**) {
             }
           }
             
-          if (bird.touchingFloor()) {
+          if (floor.isTouchedBy(bird.getCollisionBox())) {
             bird.kill();
             bird.setState("menu");
             gameState = 'o';
@@ -298,6 +302,7 @@ int main(int, char const**) {
           pipe1Sprites = pipe1.getSprites();
           pipe2Sprites = pipe2.getSprites();
           pipe3Sprites = pipe3.getSprites();
+          floorSprites = floor.getSprites();
           // Update the screen!
           window.clear();
           
@@ -314,7 +319,9 @@ int main(int, char const**) {
           window.draw(pipe3Sprites[0]);
           window.draw(pipe3Sprites[1]);
           
-          window.draw(spriteSet["floor"]);
+          window.draw(floorSprites[0]);
+          window.draw(floorSprites[1]);
+          
           window.draw(text);
           
           if (showInstructions) {

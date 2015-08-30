@@ -19,6 +19,10 @@ double Game_obj::getYPos() {
   return position.y;
 }
 
+sf::Rect<int> Game_obj::getCollisionBox() {
+  return collisionBox;
+}
+
 void Game_obj::setPosition(double x, double y) {
   position = sf::Vector2<double>(x, y);
   sprite.setPosition(x, y);
