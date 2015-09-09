@@ -6,6 +6,7 @@ protected:
   double velocity;
   double gap;
   bool active;
+  sf::Rect<int> lowerCollisionBox;
 public:
   Pipe(sf::Sprite topPipe, sf::Sprite bottPipe, double xPos, double yPos, double gap, double vel);
   std::vector<sf::Sprite> getSprites();

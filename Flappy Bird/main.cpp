@@ -1,3 +1,5 @@
+#include <random>
+
 #include <SFML/Audio.hpp>
 #include <SFML/Graphics.hpp>
 
@@ -218,7 +220,7 @@ int main(int, char const**) {
       }
     }
     
-    // Hard lock the game at 60 FPS!
+    // Hard lock the game at 60 FPS! - there is a more patternistic way of doing this w/ SFML's time tools.
     secondsSinceLastFrame = ((double) clock()/CLOCKS_PER_SEC) - timeOfLastFrame;
     if (secondsSinceLastFrame > 1.0/60.0) {
       // You know what would work better than this switch case? A Scene object that bundles all non-global data together into a single chunk that
@@ -296,6 +298,20 @@ int main(int, char const**) {
             bird.setState("menu");
             gameState = 'o';
           }
+              
+          if (pipe1.isTouchedBy(bird.getCollisionBox())) {
+            bird.kill();
+            bird.setState("menu");
+            gameState = 'o';
+          } else if (pipe2.isTouchedBy(bird.getCollisionBox())) {
+            bird.kill();
+            bird.setState("menu");
+            gameState = 'o';
+          } else if (pipe3.isTouchedBy(bird.getCollisionBox())) {
+            bird.kill();
+            bird.setState("menu");
+            gameState = 'o';
+          }
           
           text.setString("Score: " + std::to_string(bird.getScore()));
           
@@ -349,6 +365,11 @@ int main(int, char const**) {
               } else {
                 game_background = spriteSet["night_background"];
               }
+              
+              // Reset the pipes
+              pipe1.setPosition(STARTING_POSITION, 100);
+              pipe2.setPosition(STARTING_POSITION + PIPE_SPACING, 100);
+              pipe3.setPosition(STARTING_POSITION + 2*PIPE_SPACING, 100);
             }
           }
           

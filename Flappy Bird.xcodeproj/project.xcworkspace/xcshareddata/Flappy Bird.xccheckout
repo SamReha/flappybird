@@ -7,21 +7,21 @@
 	<key>IDESourceControlProjectIdentifier</key>
 	<string>340E4E66-ED89-4833-95B4-26F59815EF39</string>
 	<key>IDESourceControlProjectName</key>
-	<string>project</string>
+	<string>Flappy Bird</string>
 	<key>IDESourceControlProjectOriginsDictionary</key>
 	<dict>
 		<key>235F72D47479C524D4AA535DE22B9AA88802180C</key>
-		<string>https://github.com/SamReha/flappybird</string>
+		<string>https://github.com/SamReha/flappybird.git</string>
 	</dict>
 	<key>IDESourceControlProjectPath</key>
-	<string>Flappy Bird.xcodeproj/project.xcworkspace</string>
+	<string>Flappy Bird.xcodeproj</string>
 	<key>IDESourceControlProjectRelativeInstallPathDictionary</key>
 	<dict>
 		<key>235F72D47479C524D4AA535DE22B9AA88802180C</key>
 		<string>../..</string>
 	</dict>
 	<key>IDESourceControlProjectURL</key>
-	<string>https://github.com/SamReha/flappybird</string>
+	<string>https://github.com/SamReha/flappybird.git</string>
 	<key>IDESourceControlProjectVersion</key>
 	<integer>111</integer>
 	<key>IDESourceControlProjectWCCIdentifier</key>
@@ -34,7 +34,7 @@
 			<key>IDESourceControlWCCIdentifierKey</key>
 			<string>235F72D47479C524D4AA535DE22B9AA88802180C</string>
 			<key>IDESourceControlWCCName</key>
-			<string>Flappy%20Bird</string>
+			<string>flappybird</string>
 		</dict>
 	</array>
 </dict>
