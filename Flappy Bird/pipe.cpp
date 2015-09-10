@@ -15,16 +15,6 @@ Pipe::Pipe(sf::Sprite topPipe, sf::Sprite bottPipe, double xPos, double yPos, do
   
   sprite.setPosition(position.x, position.y-((gap + topPipeRect.height)/2.0));
   bottomPipe.setPosition(position.x, position.y+((gap + bottomPipeRect.height)/2.0));
-  
-  sf::Vector2<double> size;
-  size.x = sprite.getTextureRect().width;
-  size.y = sprite.getTextureRect().height;
-  collisionBox = *new sf::Rect<int>(xPos, sprite.getPosition().y, size.x, size.y);
-  
-  sf::Vector2<double> lowerPipeSize;
-  lowerPipeSize.x = bottomPipe.getTextureRect().width;
-  lowerPipeSize.y = bottomPipe.getTextureRect().height;
-  lowerCollisionBox = *new sf::Rect<int>(xPos, bottomPipe.getPosition().y, lowerPipeSize.x, lowerPipeSize.y);
 }
 
 std::vector<sf::Sprite> Pipe::getSprites() {
@@ -63,6 +53,16 @@ void Pipe::reactivate() {
 }
 
 bool Pipe::isTouchedBy(sf::Rect<int> otherCollisionBox) {
+  sf::Vector2<double> size;
+  size.x = sprite.getTextureRect().width;
+  size.y = sprite.getTextureRect().height;
+  collisionBox = *new sf::Rect<int>(sprite.getPosition().x, sprite.getPosition().y, size.x, size.y);
+  
+  sf::Vector2<double> lowerPipeSize;
+  lowerPipeSize.x = bottomPipe.getTextureRect().width;
+  lowerPipeSize.y = bottomPipe.getTextureRect().height;
+  lowerCollisionBox = *new sf::Rect<int>(bottomPipe.getPosition().x, bottomPipe.getPosition().y, lowerPipeSize.x, lowerPipeSize.y);
+  
   if (collisionBox.intersects(otherCollisionBox) || lowerCollisionBox.intersects(otherCollisionBox)) {
     return true;
   } else {
@@ -91,14 +91,4 @@ void Pipe::update() {
   position.x -= velocity;
   sprite.setPosition(position.x, oldSpritePosition.y);
   bottomPipe.setPosition(position.x, oldBottomPipePosition.y);
-  
-  sf::Vector2<double> size;
-  size.x = sprite.getTextureRect().width;
-  size.y = sprite.getTextureRect().height;
-  collisionBox = *new sf::Rect<int>(sprite.getPosition().x, sprite.getPosition().y, size.x, size.y);
-  
-  sf::Vector2<double> lowerPipeSize;
-  lowerPipeSize.x = bottomPipe.getTextureRect().width;
-  lowerPipeSize.y = bottomPipe.getTextureRect().height;
-  lowerCollisionBox = *new sf::Rect<int>(bottomPipe.getPosition().x, bottomPipe.getPosition().y, lowerPipeSize.x, lowerPipeSize.y);
 }

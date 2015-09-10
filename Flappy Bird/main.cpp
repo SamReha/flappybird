@@ -149,9 +149,9 @@ int main(int, char const**) {
   if (!font.loadFromFile(resourcePath() + "sansation.ttf")) {
     return EXIT_FAILURE;
   }
-  sf::Text text("Score:", font, 50);
+  sf::Text text("Score: 0", font, 50);
   text.setColor(sf::Color::Black);
-
+  
   // Load a music to play
   sf::Music music;
   if (!music.openFromFile(resourcePath() + "nice_music.ogg")) {
@@ -194,11 +194,14 @@ int main(int, char const**) {
   sf::Mouse mouse;
   sf::Vector2<int> mousePos;
   
-  Pipe pipe1(topPipe, bottomPipe, STARTING_POSITION, 100, GAP_WIDTH, SPEED);
+  // Configure rand numbers for pipe positions
+  srand(0);
+  
+  Pipe pipe1(topPipe, bottomPipe, STARTING_POSITION, rand()%512 - 112, GAP_WIDTH, SPEED);
   std::vector<sf::Sprite> pipe1Sprites;
-  Pipe pipe2(topPipe, bottomPipe, STARTING_POSITION + PIPE_SPACING, 100, GAP_WIDTH, SPEED);
+  Pipe pipe2(topPipe, bottomPipe, STARTING_POSITION + PIPE_SPACING, rand()%512 - 112, GAP_WIDTH, SPEED);
   std::vector<sf::Sprite> pipe2Sprites;
-  Pipe pipe3(topPipe, bottomPipe, STARTING_POSITION + 2*PIPE_SPACING, 100, GAP_WIDTH, SPEED);
+  Pipe pipe3(topPipe, bottomPipe, STARTING_POSITION + 2*PIPE_SPACING, rand()%512 - 112, GAP_WIDTH, SPEED);
   std::vector<sf::Sprite> pipe3Sprites;
   
   Floor floor(spriteSet["floor"], spriteSet["floor_copy"], 0, 400, SPEED);
@@ -207,6 +210,7 @@ int main(int, char const**) {
   // Start the game loop
   double secondsSinceLastFrame;
   double timeOfLastFrame = 1;
+
   while (window.isOpen()) {
     // Process events
     sf::Event event;
@@ -271,49 +275,34 @@ int main(int, char const**) {
             
             if (pipe1.isOffScreen()) {
               pipe1.setXPos(pipe3.getXPos() + PIPE_SPACING);
+              pipe1.setYPos(rand()%512 - 112);
               pipe1.reactivate();
             }
             if (pipe2.isOffScreen()) {
               pipe2.setXPos(pipe1.getXPos() + PIPE_SPACING);
+              pipe2.setYPos(rand()%512 - 112);
               pipe2.reactivate();
             }
             if (pipe3.isOffScreen()) {
               pipe3.setXPos(pipe2.getXPos() + PIPE_SPACING);
+              pipe3.setYPos(rand()%512 - 112);
               pipe3.reactivate();
             }
-            
-            if (pipe1.hasBeenPassed(bird.getXPos())) {
+
+            if (pipe1.hasBeenPassed(bird.getXPos()) || pipe2.hasBeenPassed(bird.getXPos()) || pipe3.hasBeenPassed(bird.getXPos())) {
               bird.incrementScore();
+              text.setString("Score: " + std::to_string(bird.getScore()));
             }
-            if (pipe2.hasBeenPassed(bird.getXPos())) {
-              bird.incrementScore();
-            }
-            if (pipe3.hasBeenPassed(bird.getXPos())) {
-              bird.incrementScore();
-            }
-          }
-            
-          if (floor.isTouchedBy(bird.getCollisionBox())) {
-            bird.kill();
-            bird.setState("menu");
-            gameState = 'o';
           }
               
-          if (pipe1.isTouchedBy(bird.getCollisionBox())) {
-            bird.kill();
-            bird.setState("menu");
-            gameState = 'o';
-          } else if (pipe2.isTouchedBy(bird.getCollisionBox())) {
-            bird.kill();
-            bird.setState("menu");
-            gameState = 'o';
-          } else if (pipe3.isTouchedBy(bird.getCollisionBox())) {
+          if (floor.isTouchedBy(bird.getCollisionBox()) ||
+              pipe1.isTouchedBy(bird.getCollisionBox()) ||
+              pipe2.isTouchedBy(bird.getCollisionBox()) ||
+              pipe3.isTouchedBy(bird.getCollisionBox())) {
             bird.kill();
             bird.setState("menu");
             gameState = 'o';
           }
-          
-          text.setString("Score: " + std::to_string(bird.getScore()));
           
           pipe1Sprites = pipe1.getSprites();
           pipe2Sprites = pipe2.getSprites();
@@ -357,6 +346,7 @@ int main(int, char const**) {
               bird.setPosition(79, 230);
               bird.setScore(0);
               bird.revive();
+              text.setString("Score: " + std::to_string(bird.getScore()));
               showInstructions = true;
               
               // Reroll the game background
@@ -367,9 +357,10 @@ int main(int, char const**) {
               }
               
               // Reset the pipes
-              pipe1.setPosition(STARTING_POSITION, 100);
-              pipe2.setPosition(STARTING_POSITION + PIPE_SPACING, 100);
-              pipe3.setPosition(STARTING_POSITION + 2*PIPE_SPACING, 100);
+              srand(0);
+              pipe1.setPosition(STARTING_POSITION, rand()%512 - 112);
+              pipe2.setPosition(STARTING_POSITION + PIPE_SPACING, rand()%512 - 112);
+              pipe3.setPosition(STARTING_POSITION + 2*PIPE_SPACING, rand()%512 - 112);
             }
           }
           
