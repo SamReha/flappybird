@@ -11,6 +11,9 @@
 #include "floor.hpp"
 
 const int PIPE_SPACING = 150;
+const int PLAYFIELD_HEIGHT = 100;
+const double BOUNCE_FACTOR = 6.0;
+const double ACCEL_DUE_TO_GRAVITY = 0.4;
 const double SPEED = 2.5;
 const double GAP_WIDTH = 90;
 const double STARTING_POSITION = 750;
@@ -181,7 +184,7 @@ int main(int, char const**) {
   // Let's create some objects that will be of great use during the game
   char gameState = 'm';
   bool showInstructions = true;
-  Character bird(127, 250, 24);
+  Character bird(127, 250, 24, ACCEL_DUE_TO_GRAVITY);
   bird.setSpriteVector(birdSpriteVector, 4);
   
   sf::Vector2<double> startButtonPosition(86, 343);
@@ -196,12 +199,11 @@ int main(int, char const**) {
   
   // Configure rand numbers for pipe positions
   srand(0);
-  
-  Pipe pipe1(topPipe, bottomPipe, STARTING_POSITION, rand()%512 - 112, GAP_WIDTH, SPEED);
+  Pipe pipe1(topPipe, bottomPipe, STARTING_POSITION, rand()%PLAYFIELD_HEIGHT, GAP_WIDTH, SPEED);
   std::vector<sf::Sprite> pipe1Sprites;
-  Pipe pipe2(topPipe, bottomPipe, STARTING_POSITION + PIPE_SPACING, rand()%512 - 112, GAP_WIDTH, SPEED);
+  Pipe pipe2(topPipe, bottomPipe, STARTING_POSITION + PIPE_SPACING, rand()%PLAYFIELD_HEIGHT, GAP_WIDTH, SPEED);
   std::vector<sf::Sprite> pipe2Sprites;
-  Pipe pipe3(topPipe, bottomPipe, STARTING_POSITION + 2*PIPE_SPACING, rand()%512 - 112, GAP_WIDTH, SPEED);
+  Pipe pipe3(topPipe, bottomPipe, STARTING_POSITION + 2*PIPE_SPACING, rand()%PLAYFIELD_HEIGHT, GAP_WIDTH, SPEED);
   std::vector<sf::Sprite> pipe3Sprites;
   
   Floor floor(spriteSet["floor"], spriteSet["floor_copy"], 0, 400, SPEED);
@@ -263,7 +265,7 @@ int main(int, char const**) {
           if (sf::Keyboard::isKeyPressed(sf::Keyboard::Space)) {
             showInstructions = false;
             bird.setState("game");
-            bird.bounce(10.0);
+            bird.bounce(BOUNCE_FACTOR);
           }
           bird.update();
           
@@ -275,17 +277,17 @@ int main(int, char const**) {
             
             if (pipe1.isOffScreen()) {
               pipe1.setXPos(pipe3.getXPos() + PIPE_SPACING);
-              pipe1.setYPos(rand()%512 - 112);
+              pipe1.setYPos(rand()%PLAYFIELD_HEIGHT);
               pipe1.reactivate();
             }
             if (pipe2.isOffScreen()) {
               pipe2.setXPos(pipe1.getXPos() + PIPE_SPACING);
-              pipe2.setYPos(rand()%512 - 112);
+              pipe2.setYPos(rand()%PLAYFIELD_HEIGHT);
               pipe2.reactivate();
             }
             if (pipe3.isOffScreen()) {
               pipe3.setXPos(pipe2.getXPos() + PIPE_SPACING);
-              pipe3.setYPos(rand()%512 - 112);
+              pipe3.setYPos(rand()%PLAYFIELD_HEIGHT);
               pipe3.reactivate();
             }
 
@@ -358,9 +360,9 @@ int main(int, char const**) {
               
               // Reset the pipes
               srand(0);
-              pipe1.setPosition(STARTING_POSITION, rand()%512 - 112);
-              pipe2.setPosition(STARTING_POSITION + PIPE_SPACING, rand()%512 - 112);
-              pipe3.setPosition(STARTING_POSITION + 2*PIPE_SPACING, rand()%512 - 112);
+              pipe1.setPosition(STARTING_POSITION, rand()%PLAYFIELD_HEIGHT);
+              pipe2.setPosition(STARTING_POSITION + PIPE_SPACING, rand()%PLAYFIELD_HEIGHT);
+              pipe3.setPosition(STARTING_POSITION + 2*PIPE_SPACING, rand()%PLAYFIELD_HEIGHT);
             }
           }
           

@@ -16,8 +16,9 @@ protected:
   int score;
 
   sf::Vector2<double> velocity;
+  sf::Vector2<double> accelerationDueToGravity;
 public:
-  Character(double xPos, double yPos, double frmeRte);
+  Character(double xPos, double yPos, double frmeRte, double accelDueToGravity);
   void setSpriteVector(std::vector<sf::Sprite>, int vecLeng);
   void setVelocity(sf::Vector2<double> newVelocity);
   void setXVel(double newX);

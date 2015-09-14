@@ -5,7 +5,7 @@
 // Private
 
 // Public
-Character::Character(double xPos, double yPos, double frmeRte) {
+Character::Character(double xPos, double yPos, double frmeRte, double accelDueToGravity) {
   position.x = xPos;
   position.y = yPos;
   frameRate = frmeRte;
@@ -20,6 +20,8 @@ Character::Character(double xPos, double yPos, double frmeRte) {
   timeOfLastSpriteChange = -1.0;
   sprite.setPosition(xPos, yPos);
   score = 0;
+  
+  accelerationDueToGravity = *new sf::Vector2<double>(0.0, accelDueToGravity);
 }
 
 void Character::setSpriteVector(std::vector<sf::Sprite> vector, int vecLeng) {
@@ -94,7 +96,6 @@ void Character::bounce(double bounceFactor) {
 }
 
 void Character::update() {
-  sf::Vector2<double> accelerationDueToGravity(0.0, 1.0);
   if (!dead) {
     // Update the active sprite
     double secondsSinceLastSpriteChange = ((double) clock()/CLOCKS_PER_SEC) - timeOfLastSpriteChange;
