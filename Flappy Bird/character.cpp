@@ -3,6 +3,13 @@
 #include "character.hpp"
 
 // Private
+double clamp(double value, double min, double max) {
+  if (value < min) {
+    return min;
+  } else if (value > max) {
+    return max;
+  } else return value;
+}
 
 // Public
 Character::Character(double xPos, double yPos, double frmeRte, double accelDueToGravity) {
@@ -115,6 +122,7 @@ void Character::update() {
       velocity.y += accelerationDueToGravity.y;
       position.x += velocity.x;
       position.y += velocity.y;
+      position.y = clamp(position.y + velocity.y, -50, 1000);
     }
     
     sprite.setPosition(position.x, position.y); // Make sure the sprite knows where we are

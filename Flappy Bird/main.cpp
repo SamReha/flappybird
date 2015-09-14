@@ -12,8 +12,8 @@
 
 const int PIPE_SPACING = 150;
 const int PLAYFIELD_HEIGHT = 100;
-const double BOUNCE_FACTOR = 6.0;
-const double ACCEL_DUE_TO_GRAVITY = 0.4;
+const double BOUNCE_FACTOR = 4.5;
+const double ACCEL_DUE_TO_GRAVITY = 0.3;
 const double SPEED = 2.5;
 const double GAP_WIDTH = 90;
 const double STARTING_POSITION = 750;
@@ -384,6 +384,7 @@ int main(int, char const**) {
           window.draw(spriteSet["floor"]);
           window.draw(startButton.getSprite());
           window.draw(spriteSet["game_over"]);
+          window.draw(text);
           
           window.display();
           break;
